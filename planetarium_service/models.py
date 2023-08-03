@@ -51,10 +51,10 @@ class ShowSession(models.Model):
     datetime = models.DateTimeField()
 
     class Meta:
-        ordering = ["-show_time"]
+        ordering = ["-datetime"]
 
     def __str__(self):
-        return self.astronomy_show.title + " in " + self.planetarium_dome.name
+        return f'"{self.astronomy_show.title}" in {self.planetarium_dome.name}'
 
 
 class Reservation(models.Model):
@@ -73,8 +73,8 @@ class Reservation(models.Model):
 class Ticket(models.Model):
     row = models.IntegerField()
     seat = models.IntegerField()
-    show_session = models.ForeignKey(ShowSession, on_delete=models.CASCADE)
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    show_session = models.ForeignKey(ShowSession, on_delete=models.CASCADE, related_name="tickets")
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name="tickets")
 
     @staticmethod
     def validate_ticket(row, seat, planetarium_dome, error_to_raise):
