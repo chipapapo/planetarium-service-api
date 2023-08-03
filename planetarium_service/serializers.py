@@ -32,6 +32,7 @@ class AstronomyShowSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "themes",
+            "image"
         )
 
 
