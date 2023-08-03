@@ -55,3 +55,7 @@ docker-compose up --build
 - Support filtering by show and date for ShowSession.
 
 The Planetarium API offers a comprehensive solution for managing astronomy shows, show sessions, reservations, and user authentication. With its flexible filtering, pagination, and permission settings, it ensures efficient data management and access control.
+
+# Interface
+![img.png](img.png)
+![img_1.png](img_1.png)
