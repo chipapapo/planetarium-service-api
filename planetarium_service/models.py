@@ -48,7 +48,7 @@ class PlanetariumDome(models.Model):
 class ShowSession(models.Model):
     astronomy_show = models.ForeignKey(AstronomyShow, on_delete=models.CASCADE)
     planetarium_dome = models.ForeignKey(PlanetariumDome, on_delete=models.CASCADE)
-    datatime = models.DateTimeField()
+    datetime = models.DateTimeField()
 
     class Meta:
         ordering = ["-show_time"]
