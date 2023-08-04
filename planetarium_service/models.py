@@ -49,10 +49,10 @@ class PlanetariumDome(models.Model):
 
 class ShowSession(models.Model):
     astronomy_show = models.ForeignKey(
-        AstronomyShow, on_delete=models.CASCADE
+        AstronomyShow, on_delete=models.CASCADE, related_name="sessions"
     )
     planetarium_dome = models.ForeignKey(
-        PlanetariumDome, on_delete=models.CASCADE
+        PlanetariumDome, on_delete=models.CASCADE, related_name="sessions"
     )
     datetime = models.DateTimeField()
 
@@ -66,7 +66,9 @@ class ShowSession(models.Model):
 class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="users"
     )
 
     class Meta:
