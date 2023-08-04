@@ -1,12 +1,12 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework import routers
 
 from planetarium_service.views import (
-    ShowThemeViewSet,
-    PlanetariumDomeViewSet,
     AstronomyShowViewSet,
-    ShowSessionViewSet,
+    PlanetariumDomeViewSet,
     ReservationViewSet,
+    ShowSessionViewSet,
+    ShowThemeViewSet
 )
 
 router = routers.DefaultRouter()

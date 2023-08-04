@@ -1,36 +1,35 @@
 from datetime import datetime
 
-from django.db.models import F, Count
+from django.db.models import Count, F
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, OpenApiParameter
-from rest_framework import viewsets, mixins, status
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from planetarium_service.permissions import IsAdminOrIfAuthenticatedReadOnly
 from planetarium_service.models import (
-    ShowTheme,
-    PlanetariumDome,
     AstronomyShow,
-    ShowSession,
+    PlanetariumDome,
     Reservation,
+    ShowSession,
+    ShowTheme
 )
-
+from planetarium_service.permissions import IsAdminOrIfAuthenticatedReadOnly
 from planetarium_service.serializers import (
-    ShowThemeSerializer,
-    PlanetariumDomeSerializer,
-    AstronomyShowSerializer,
-    ShowSessionSerializer,
-    ShowSessionListSerializer,
     AstronomyShowDetailSerializer,
-    ShowSessionDetailSerializer,
-    AstronomyShowListSerializer,
-    ReservationSerializer,
-    ReservationListSerializer,
     AstronomyShowImageSerializer,
+    AstronomyShowListSerializer,
+    AstronomyShowSerializer,
+    PlanetariumDomeSerializer,
+    ReservationListSerializer,
+    ReservationSerializer,
+    ShowSessionDetailSerializer,
+    ShowSessionListSerializer,
+    ShowSessionSerializer,
+    ShowThemeSerializer
 )
 
 
@@ -137,7 +136,8 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         .select_related("astronomy_show", "planetarium_dome")
         .annotate(
             tickets_available=(
-                F("planetarium_dome__rows") * F("planetarium_dome__seats_in_row")
+                F("planetarium_dome__rows")
+                * F("planetarium_dome__seats_in_row")
                 - Count("tickets")
             )
         )

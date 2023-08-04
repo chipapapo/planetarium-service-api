@@ -1,16 +1,23 @@
-import tempfile
 import os
+import tempfile
 
-from PIL import Image
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-
-from rest_framework.test import APIClient
+from PIL import Image
 from rest_framework import status
+from rest_framework.test import APIClient
 
-from planetarium_service.models import AstronomyShow, ShowSession, PlanetariumDome, ShowTheme
-from planetarium_service.serializers import AstronomyShowListSerializer, AstronomyShowDetailSerializer
+from planetarium_service.models import (
+    AstronomyShow,
+    PlanetariumDome,
+    ShowSession,
+    ShowTheme
+)
+from planetarium_service.serializers import (
+    AstronomyShowDetailSerializer,
+    AstronomyShowListSerializer
+)
 
 SHOW_URL = reverse("planetarium_service:astronomyshow-list")
 SHOW_SESSION_URL = reverse("planetarium_service:showsession-list")

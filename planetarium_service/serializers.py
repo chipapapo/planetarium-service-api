@@ -3,12 +3,12 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from planetarium_service.models import (
-    ShowTheme,
-    PlanetariumDome,
     AstronomyShow,
-    ShowSession,
-    Ticket,
+    PlanetariumDome,
     Reservation,
+    ShowSession,
+    ShowTheme,
+    Ticket
 )
 
 
@@ -73,8 +73,12 @@ class ShowSessionSerializer(serializers.ModelSerializer):
 
 
 class ShowSessionListSerializer(ShowSessionSerializer):
-    show_title = serializers.CharField(source="astronomy_show.title", read_only=True)
-    show_image = serializers.ImageField(source="astronomy_show.image", read_only=True)
+    show_title = serializers.CharField(
+        source="astronomy_show.title", read_only=True
+    )
+    show_image = serializers.ImageField(
+        source="astronomy_show.image", read_only=True
+    )
     planetarium_dome_name = serializers.CharField(
         source="planetarium_dome.name", read_only=True
     )

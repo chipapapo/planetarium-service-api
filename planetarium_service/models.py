@@ -2,10 +2,10 @@ import os
 import uuid
 
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import User
-from django.utils.text import slugify
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils.text import slugify
 
 
 def show_image_file_path(instance, filename):
@@ -25,7 +25,9 @@ class ShowTheme(models.Model):
 class AstronomyShow(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    themes = models.ManyToManyField(ShowTheme, blank=True)
+    themes = models.ManyToManyField(
+        ShowTheme, related_name="shows", blank=True
+    )
     image = models.ImageField(null=True, upload_to=show_image_file_path)
 
     def __str__(self):
@@ -46,8 +48,12 @@ class PlanetariumDome(models.Model):
 
 
 class ShowSession(models.Model):
-    astronomy_show = models.ForeignKey(AstronomyShow, on_delete=models.CASCADE)
-    planetarium_dome = models.ForeignKey(PlanetariumDome, on_delete=models.CASCADE)
+    astronomy_show = models.ForeignKey(
+        AstronomyShow, on_delete=models.CASCADE
+    )
+    planetarium_dome = models.ForeignKey(
+        PlanetariumDome, on_delete=models.CASCADE
+    )
     datetime = models.DateTimeField()
 
     class Meta:
@@ -73,12 +79,20 @@ class Reservation(models.Model):
 class Ticket(models.Model):
     row = models.IntegerField()
     seat = models.IntegerField()
-    show_session = models.ForeignKey(ShowSession, on_delete=models.CASCADE, related_name="tickets")
-    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE, related_name="tickets")
+    show_session = models.ForeignKey(
+        ShowSession, on_delete=models.CASCADE, related_name="tickets"
+    )
+    reservation = models.ForeignKey(
+        Reservation, on_delete=models.CASCADE, related_name="tickets"
+    )
 
     @staticmethod
     def validate_ticket(row, seat, planetarium_dome, error_to_raise):
-        for ticket_attr_value, ticket_attr_name, planetarium_dome_attr_name in [
+        for (
+                ticket_attr_value,
+                ticket_attr_name,
+                planetarium_dome_attr_name
+        ) in [
             (row, "row", "rows"),
             (seat, "seat", "seats_in_row"),
         ]:
@@ -109,7 +123,7 @@ class Ticket(models.Model):
         update_fields=None,
     ):
         self.full_clean()
-        return super(Ticket, self).save(
+        return super().save(
             force_insert, force_update, using, update_fields
         )
 
